@@ -8,7 +8,7 @@
  * - Pipeline orchestration (with mocked provider)
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import type { AIProvider } from "../src/ai/types.js";
 import type { Profile } from "../src/types/profile.js";
 import type { ParsedJob } from "../src/parser/types.js";
@@ -337,7 +337,7 @@ describe("Markdown fallback parser", () => {
 
     const result = parseMarkdownResume(content);
     expect(result).not.toBeNull();
-    expect(result!.summary).toBe("Test");
+    expect(result?.summary).toBe("Test");
   });
 
   it("should parse raw JSON response", async () => {
@@ -348,7 +348,7 @@ describe("Markdown fallback parser", () => {
 
     const result = parseMarkdownResume(content);
     expect(result).not.toBeNull();
-    expect(result!.summary).toBe("Test");
+    expect(result?.summary).toBe("Test");
   });
 
   it("should return null for unparseable content", async () => {
@@ -368,7 +368,7 @@ describe("Markdown fallback parser", () => {
 
     const result = parseMarkdownCoverLetter(content);
     expect(result).not.toBeNull();
-    expect(result!.greeting).toBe("Dear HM");
+    expect(result?.greeting).toBe("Dear HM");
   });
 });
 
@@ -413,8 +413,8 @@ describe("Pipeline orchestration", () => {
     });
 
     expect(result.explanations).toBeDefined();
-    expect(result.explanations!.experience.length).toBeGreaterThan(0);
-    expect(result.explanations!.skills.length).toBeGreaterThan(0);
+    expect(result.explanations?.experience.length).toBeGreaterThan(0);
+    expect(result.explanations?.skills.length).toBeGreaterThan(0);
   });
 
   it("should include ranking results in dry-run mode", async () => {

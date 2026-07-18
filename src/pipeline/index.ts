@@ -174,6 +174,11 @@ export async function runPipeline(
     };
   }
 
+  // Provider is required for non-dry-run execution
+  if (!provider) {
+    throw new Error("AI provider is required when dryRun is false");
+  }
+
   // -----------------------------------------------------------------------
   // Step 5: Resume Planning (AI)
   // -----------------------------------------------------------------------

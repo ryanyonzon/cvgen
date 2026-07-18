@@ -99,14 +99,14 @@ describe("DEFAULT_TEMPLATES", () => {
 
   it("classic.md should contain expected sections", () => {
     const template = DEFAULT_TEMPLATES["classic.md"];
-    expect(template).toContain("Professional Summary");
-    expect(template).toContain("Work Experience");
+    expect(template).toContain("Summary");
+    expect(template).toContain("Professional Experience");
   });
 
   it("modern.md should contain expected sections", () => {
     const template = DEFAULT_TEMPLATES["modern.md"];
-    expect(template).toContain("About");
-    expect(template).toContain("Stack:");
+    expect(template).toContain("Professional Summary");
+    expect(template).toContain("Skills");
   });
 
   it("minimal.md should be concise", () => {

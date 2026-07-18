@@ -29,7 +29,7 @@ export interface PipelineOptions {
   /** Environment configuration (provider, model, etc.) */
   env: EnvironmentConfig;
   /** AI provider instance for generation calls */
-  provider: AIProvider;
+  provider: AIProvider | null;
   /** Logger instance */
   logger: Logger;
   /** If true, skip AI generation and show analysis only */

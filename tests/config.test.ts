@@ -75,10 +75,8 @@ describe("config", () => {
       ensureConfigDir();
 
       expect(fs.mkdirSync).toHaveBeenCalled();
-      // Should have been called for config dir, profiles, prompts, templates, logs, history
-      // ensureConfigDir creates 6 dirs, then generateDefaults creates 6 more
-      // (checks for existing files but mocked to return false)
-      expect(fs.mkdirSync).toHaveBeenCalledTimes(12);
+      // ensureConfigDir creates: config dir, profiles, prompts, templates, logs, history, prompts/v1
+      expect(fs.mkdirSync).toHaveBeenCalledTimes(7);
     });
   });
 

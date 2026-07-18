@@ -215,6 +215,8 @@ export function saveEnvironment(env: EnvironmentConfig): void {
  *
  * @throws ConfigurationError if the provider is remote and no API key is set
  */
+export { getProfilePath } from "./profile.js";
+
 export function validateApiKey(env: EnvironmentConfig): void {
   const remoteProviders = ["openrouter", "openai", "anthropic", "google"];
   const isRemote = remoteProviders.includes(env.provider.toLowerCase());

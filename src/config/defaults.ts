@@ -8,6 +8,33 @@
  */
 
 /**
+ * Default candidate profile used when initializing a new profile.
+ */
+export const DEFAULT_PROFILE = {
+  name: "",
+  headline: "",
+  summary: "",
+  contact: {
+    email: "",
+    phone: "",
+    city: "",
+    state: "",
+    country: "",
+  },
+  social: {
+    github: "",
+    linkedin: "",
+    website: "",
+  },
+  skills: [],
+  experience: [],
+  education: [],
+  projects: [],
+  certifications: [],
+  languages: [],
+};
+
+/**
  * Built-in default prompts keyed by filename.
  *
  * Each prompt file has a specific purpose in the pipeline:

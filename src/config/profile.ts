@@ -10,6 +10,9 @@ import path from "node:path";
 import { getConfigDir } from "./index.js";
 import type { Profile } from "../types/profile.js";
 import { validateProfile } from "../schemas/profile.js";
+import { DEFAULT_PROFILE } from "./defaults.js";
+import { DEFAULT_PROMPTS } from "./defaults.js";
+import { DEFAULT_TEMPLATES } from "./templates.js";
 
 // ---------------------------------------------------------------------------
 // Directory Helpers
@@ -20,6 +23,15 @@ import { validateProfile } from "../schemas/profile.js";
  */
 export function getProfilesDir(): string {
   return path.join(getConfigDir(), "profiles");
+}
+
+/**
+ * Get the full path to a profile file.
+ *
+ * @param name - Profile name (without .json extension)
+ */
+export function getProfilePath(name: string): string {
+  return path.join(getProfilesDir(), `${name}.json`);
 }
 
 /**
@@ -68,29 +80,28 @@ export function listProfiles(): string[] {
  * @returns The parsed Profile, or null if not found or invalid
  */
 export function loadProfile(name: string): Profile | null {
-  const profilesDir = getProfilesDir();
-  const profilePath = path.join(profilesDir, `${name}.json`);
+  const profilePath = getProfilePath(name);
 
   if (!fs.existsSync(profilePath)) {
     return null;
   }
 
-  try {
-    const raw = fs.readFileSync(profilePath, "utf-8");
-    const data = JSON.parse(raw) as Profile;
+  const raw = fs.readFileSync(profilePath, "utf-8");
 
-    // Apply defaults for optional fields
-    return {
-      ...data,
-      skills: data.skills ?? [],
-      experience: data.experience ?? [],
-      education: data.education ?? [],
-      projects: data.projects ?? [],
-      certifications: data.certifications ?? [],
-    };
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
   } catch {
-    return null;
+    throw new Error(`Profile "${name}" contains invalid JSON`);
   }
+
+  const validation = validateProfile(parsed);
+  if (!validation.valid) {
+    const msgs = validation.errors.map((e) => `${e.path}: ${e.message}`).join("; ");
+    throw new Error(`Profile "${name}" is invalid: ${msgs}`);
+  }
+
+  return parsed as Profile;
 }
 
 /**
@@ -100,6 +111,12 @@ export function loadProfile(name: string): Profile | null {
  * @param profile - The profile data to save
  */
 export function saveProfile(name: string, profile: Profile): void {
+  const validation = validateProfile(profile);
+  if (!validation.valid) {
+    const msgs = validation.errors.map((e) => `${e.path}: ${e.message}`).join("; ");
+    throw new Error(`Invalid profile: ${msgs}`);
+  }
+
   const profilesDir = getProfilesDir();
 
   if (!fs.existsSync(profilesDir)) {
@@ -159,7 +176,10 @@ export interface SingleProfileValidationResult {
  *
  * @returns Map of profile name to validation result
  */
-export function validateAllProfiles(): Map<string, SingleProfileValidationResult> {
+export function validateAllProfiles(): Map<
+  string,
+  SingleProfileValidationResult
+> {
   const names = listProfiles();
   const results = new Map<string, SingleProfileValidationResult>();
 
@@ -188,7 +208,55 @@ export function validateAllProfiles(): Map<string, SingleProfileValidationResult
 }
 
 /**
- * Validate a single profile by name.
+ * Generate and save all default configuration files.
+ *
+ * @param force - If true, overwrite existing files; if false, skip existing
+ */
+export function generateDefaults(force: boolean): void {
+  const configDir = getConfigDir();
+
+  // Ensure directories exist
+  const dirs = [
+    configDir,
+    path.join(configDir, "profiles"),
+    path.join(configDir, "prompts"),
+    path.join(configDir, "prompts", "v1"),
+    path.join(configDir, "templates"),
+  ];
+
+  for (const dir of dirs) {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  }
+
+  // Write default profile
+  const profilePath = path.join(configDir, "profiles", "default.json");
+  if (force || !fs.existsSync(profilePath)) {
+    fs.writeFileSync(profilePath, JSON.stringify(DEFAULT_PROFILE, null, 2), "utf-8");
+  }
+
+  // Write prompt files
+  const promptsDir = path.join(configDir, "prompts", "v1");
+  for (const [filename, content] of Object.entries(DEFAULT_PROMPTS)) {
+    const filePath = path.join(promptsDir, filename);
+    if (force || !fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, content, "utf-8");
+    }
+  }
+
+  // Write template files
+  const templatesDir = path.join(configDir, "templates");
+  for (const [filename, content] of Object.entries(DEFAULT_TEMPLATES)) {
+    const filePath = path.join(templatesDir, filename);
+    if (force || !fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, content, "utf-8");
+    }
+  }
+}
+
+/**
+ * Validate a single profile by nesDir = path.join(configDir, \"templates\");\n  for (const [filename, content] of Object.entries(DEFAULT_TEMPLATES)) {\n    const filePath = path.join(templatesDir, filename);\n    if (force || !fs.existsSync(filePath)) {\n      fs.writeFileSync(filePath, content, \"utf-8\");\n    }\n  }\n}\n\n/**\n * Validate a single profile by name.", {"oldText": "export function profileExists(name: string): boolean {\n  return path.join(getProfilesDir(), `${name}.json`);\n}", "newText": "export function profileExists(name: string): boolean {\n  return fs.existsSync(getProfilePath(name));\n}"}]
  *
  * @returns Validation result, or null if the profile doesn't exist
  */

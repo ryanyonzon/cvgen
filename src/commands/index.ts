@@ -498,7 +498,7 @@ Options:
         job: parsed.data,
         config: context.config,
         env: context.environment,
-        provider: provider!,
+        provider: provider,
         logger: context.logger,
         dryRun,
         explain,

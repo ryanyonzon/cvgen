@@ -172,13 +172,13 @@ describe("Keyword Matching", () => {
     // TypeScript is in primary skills
     const tsMatch = results.find((k) => k.keyword === "TypeScript");
     expect(tsMatch).toBeDefined();
-    expect(tsMatch!.status).toBe("matched");
-    expect(tsMatch!.confidence).toBeGreaterThanOrEqual(90);
+    expect(tsMatch?.status).toBe("matched");
+    expect(tsMatch?.confidence).toBeGreaterThanOrEqual(90);
 
     // React is in primary skills
     const reactMatch = results.find((k) => k.keyword === "React");
     expect(reactMatch).toBeDefined();
-    expect(reactMatch!.status).toBe("matched");
+    expect(reactMatch?.status).toBe("matched");
   });
 
   it("should detect missing keywords", () => {
@@ -192,12 +192,12 @@ describe("Keyword Matching", () => {
 
     const k8sMatch = results.find((k) => k.keyword === "Kubernetes");
     expect(k8sMatch).toBeDefined();
-    expect(k8sMatch!.status).toBe("missing");
-    expect(k8sMatch!.confidence).toBe(0);
+    expect(k8sMatch?.status).toBe("missing");
+    expect(k8sMatch?.confidence).toBe(0);
 
     const tfMatch = results.find((k) => k.keyword === "Terraform");
     expect(tfMatch).toBeDefined();
-    expect(tfMatch!.status).toBe("missing");
+    expect(tfMatch?.status).toBe("missing");
   });
 
   it("should detect weak keyword matches (mentioned but not in skills)", () => {
@@ -286,7 +286,7 @@ describe("Keyword Matching", () => {
 
     const tsMatch = results.find((k) => k.keyword === "TypeScript");
     expect(tsMatch).toBeDefined();
-    expect(tsMatch!.status).toBe("matched");
+    expect(tsMatch?.status).toBe("matched");
   });
 });
 

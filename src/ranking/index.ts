@@ -44,7 +44,13 @@ export class RankingEngine {
     return { experience, skills, projects, education, certifications };
   }
 
-  public getRankers() {
+  public getRankers(): {
+    experience: ExperienceRanker;
+    skills: SkillRanker;
+    projects: ProjectRanker;
+    education: EducationRanker;
+    certifications: CertificationRanker;
+  } {
     return {
       experience: this.experienceRanker,
       skills: this.skillRanker,

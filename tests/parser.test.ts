@@ -411,9 +411,9 @@ describe("parseJobDescription", () => {
     const result = await parseJobDescription(content);
     expect(result.success).toBe(true);
     expect(result.data).toBeDefined();
-    expect(result.data!.title).toBe("Senior Backend Engineer");
-    expect(result.data!.company).toBe("Acme Corp");
-    expect(result.data!.content.length).toBeGreaterThan(0);
+    expect(result.data?.title).toBe("Senior Backend Engineer");
+    expect(result.data?.company).toBe("Acme Corp");
+    expect(result.data?.content.length).toBeGreaterThan(0);
   });
 
   it("should parse raw HTML content", async () => {
@@ -429,7 +429,7 @@ describe("parseJobDescription", () => {
     const result = await parseJobDescription(content);
     expect(result.success).toBe(true);
     expect(result.data).toBeDefined();
-    expect(result.data!.title).toBe("DevOps Engineer");
+    expect(result.data?.title).toBe("DevOps Engineer");
   });
 
   it("should parse plain text content", async () => {
@@ -447,7 +447,7 @@ describe("parseJobDescription", () => {
     const result = await parseJobDescription(content);
     expect(result.success).toBe(true);
     expect(result.data).toBeDefined();
-    expect(result.data!.title).toBe("Senior Developer");
+    expect(result.data?.title).toBe("Senior Developer");
   });
 });
 

@@ -93,9 +93,11 @@ describe("InitCommand", () => {
   it("should initialize when only directory exists but no config files", async () => {
     // Simulate: configDir exists, but configFile and envFile do not
     vi.mocked(fs.existsSync).mockImplementation((p: string) => {
-      return p.toString().includes(".config/cvgen") &&
+      return (
+        p.toString().includes(".config/cvgen") &&
         !p.toString().includes("config.json") &&
-        !p.toString().includes(".env");
+        !p.toString().includes(".env")
+      );
     });
     vi.mocked(fs.mkdirSync).mockImplementation(() => undefined);
     vi.mocked(fs.writeFileSync).mockImplementation(() => undefined);
