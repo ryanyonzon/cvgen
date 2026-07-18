@@ -1,0 +1,76 @@
+{
+  "name": "cvgen",
+  "version": "1.0.0",
+  "description": "AI-powered CLI for generating professional, ATS-friendly resumes and cover letters",
+  "keywords": [
+    "resume",
+    "cv",
+    "cover-letter",
+    "ats",
+    "cli",
+    "ai",
+    "career",
+    "job-application"
+  ],
+  "homepage": "https://github.com/ryanyonzon/cvgen#readme",
+  "bugs": {
+    "url": "https://github.com/ryanyonzon/cvgen/issues"
+  },
+  "license": "MIT",
+  "author": "Ryan Yonzon",
+  "type": "module",
+  "bin": {
+    "cvgen": "./dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "prompts/",
+    "templates/",
+    "docs/",
+    "CHANGELOG.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist/",
+    "dev": "tsc --watch",
+    "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
+    "format:check": "prettier --check 'src/**/*.ts' 'tests/**/*.ts'",
+    "lint": "eslint 'src/**/*.ts' 'tests/**/*.ts'",
+    "lint:fix": "eslint 'src/**/*.ts' 'tests/**/*.ts' --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint && npm run test",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "conf": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "mammoth": "^1.12.0",
+    "node-html-parser": "^9.0.0",
+    "pdf-parse": "^2.4.5",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/node": "^22.13.10",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.27.0",
+    "vitest": "^3.0.9"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
