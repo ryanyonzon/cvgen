@@ -74,11 +74,16 @@ export async function runPipeline(
   currentStep++;
   logger.step(currentStep, totalSteps, "Extracting keywords...");
 
+  // Provider is required for non-dry-run execution
+  if (!dryRun && !provider) {
+    throw new Error("AI provider is required when dryRun is false");
+  }
+
   let keywords;
   if (dryRun) {
     keywords = extractKeywordsDeterministic(job);
   } else {
-    keywords = await extractKeywords(profile, job, provider, config, env);
+    keywords = await extractKeywords(profile, job, provider!, config, env);
   }
 
   logger.verbose(
@@ -174,10 +179,7 @@ export async function runPipeline(
     };
   }
 
-  // Provider is required for non-dry-run execution
-  if (!provider) {
-    throw new Error("AI provider is required when dryRun is false");
-  }
+
 
   // -----------------------------------------------------------------------
   // Step 5: Resume Planning (AI)
@@ -190,7 +192,7 @@ export async function runPipeline(
     job,
     keywords,
     ranking,
-    provider,
+    provider!,
     config,
     env,
   );
@@ -211,7 +213,7 @@ export async function runPipeline(
     keywords,
     ranking,
     plan,
-    provider,
+    provider!,
     config,
     env,
   );
@@ -231,7 +233,7 @@ export async function runPipeline(
     resume,
     job,
     keywords,
-    provider,
+    provider!,
     config,
     env,
   );
@@ -251,7 +253,7 @@ export async function runPipeline(
     job,
     resume,
     keywords,
-    provider,
+    provider!,
     config,
     env,
     options.coverNote,
