@@ -58,7 +58,7 @@ Unlike simple prompt wrappers, `cvgen` follows a structured generation pipeline 
 ### Install Globally
 
 ```bash
-npm install -g cvgen
+npm install -g @ryanyonzon/cvgen
 ```
 
 ### Use Directly with npx

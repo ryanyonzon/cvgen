@@ -1,5 +1,5 @@
 {
-  "name": "cvgen",
+  "name": "@ryanyonzon/cvgen",
   "version": "1.0.0",
   "description": "AI-powered CLI for generating professional, ATS-friendly resumes and cover letters",
   "keywords": [
