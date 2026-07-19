@@ -27,6 +27,7 @@ import type {
   ResumePlan,
 } from "./types.js";
 import type { ParsedJob } from "../parser/types.js";
+import type { AIProvider } from "../ai/types.js";
 import {
   extractKeywords,
   generateResumePlan,
@@ -83,7 +84,7 @@ export async function runPipeline(
   if (dryRun) {
     keywords = extractKeywordsDeterministic(job);
   } else {
-    keywords = await extractKeywords(profile, job, provider!, config, env);
+    keywords = await extractKeywords(profile, job, provider as AIProvider, config, env);
   }
 
   logger.verbose(
@@ -179,7 +180,9 @@ export async function runPipeline(
     };
   }
 
-
+  // At this point `provider` is guaranteed non-null because dryRun is false
+  // and the check above threw if provider was null.
+  const aiProvider = provider as AIProvider;
 
   // -----------------------------------------------------------------------
   // Step 5: Resume Planning (AI)
@@ -192,7 +195,7 @@ export async function runPipeline(
     job,
     keywords,
     ranking,
-    provider!,
+    aiProvider,
     config,
     env,
   );
@@ -213,7 +216,7 @@ export async function runPipeline(
     keywords,
     ranking,
     plan,
-    provider!,
+    aiProvider,
     config,
     env,
   );
@@ -233,7 +236,7 @@ export async function runPipeline(
     resume,
     job,
     keywords,
-    provider!,
+    aiProvider,
     config,
     env,
   );
@@ -253,7 +256,7 @@ export async function runPipeline(
     job,
     resume,
     keywords,
-    provider!,
+    aiProvider,
     config,
     env,
     options.coverNote,
