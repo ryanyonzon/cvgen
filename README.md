@@ -3,7 +3,7 @@
 **AI-powered CLI for generating professional, ATS-friendly resumes and cover letters.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![npm version](https://img.shields.io/npm/v/cvgen)](https://www.npmjs.com/package/cvgen)
+[![npm version](https://img.shields.io/npm/v/@ryanyonzon/cvgen)](https://www.npmjs.com/package/@ryanyonzon/cvgen)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](https://nodejs.org)
 
 ---
